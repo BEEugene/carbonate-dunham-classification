@@ -1,0 +1,64 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  autogeo:
+    name: autogeo / poetry install + pytest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: autogeo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Cache poetry env
+        uses: actions/cache@v4
+        with:
+          path: autogeo/.venv
+          key: venv-autogeo-${{ runner.os }}-${{ hashFiles('autogeo/poetry.lock', 'autogeo/pyproject.toml') }}
+          restore-keys: venv-autogeo-${{ runner.os }}-
+      - name: Install dependencies
+        run: poetry install --no-interaction
+      - name: Lint (ruff)
+        run: poetry run ruff check src tests scripts
+      - name: Run smoke tests
+        run: poetry run pytest -q
+
+  traditional_dl:
+    name: traditional_dl / poetry install + pytest
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: traditional_dl
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Cache poetry env
+        uses: actions/cache@v4
+        with:
+          path: traditional_dl/.venv
+          key: venv-traditional-${{ runner.os }}-${{ hashFiles('traditional_dl/poetry.lock', 'traditional_dl/pyproject.toml') }}
+          restore-keys: venv-traditional-${{ runner.os }}-
+      - name: Install dependencies
+        run: poetry install --no-interaction
+      - name: Lint (ruff)
+        run: poetry run ruff check src tests scripts
+      - name: Run smoke tests
+        run: poetry run pytest -q

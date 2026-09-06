@@ -1,0 +1,16 @@
+# 7-class experiment — all Dunham + non-carbonate facies from the raw dataset.
+name: 7cls
+class_map: {}   # identity — every raw class stays as-is
+train:
+  image_height: 200
+  image_width: 400
+  epochs: 30
+  train_batch: 32
+  val_batch: 8
+  test_batch: 8
+  learning_rate_min: 3.0e-5
+  learning_rate_max: 6.0e-3
+  num_workers: 2
+  model_name: efficientnet_b1
+  seed: 42
+  pre_shuffle: true

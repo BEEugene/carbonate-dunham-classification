@@ -1,0 +1,22 @@
+# 3-class experiment — collapse every carbonate into a single super-class,
+# keep Dolomite and Sandstone separate (matches the paper's "3 groups" setting).
+name: 3cls
+class_map:
+  Boundstone:           Boundstone+Calcareous_Shale+Mudstone-Wackestone+Packstone-Grainstone+Wackestone-Packstone
+  Calcareous_Shale:     Boundstone+Calcareous_Shale+Mudstone-Wackestone+Packstone-Grainstone+Wackestone-Packstone
+  Mudstone-Wackestone:  Boundstone+Calcareous_Shale+Mudstone-Wackestone+Packstone-Grainstone+Wackestone-Packstone
+  Packstone-Grainstone: Boundstone+Calcareous_Shale+Mudstone-Wackestone+Packstone-Grainstone+Wackestone-Packstone
+  Wackestone-Packstone: Boundstone+Calcareous_Shale+Mudstone-Wackestone+Packstone-Grainstone+Wackestone-Packstone
+train:
+  image_height: 200
+  image_width: 400
+  epochs: 30
+  train_batch: 32
+  val_batch: 8
+  test_batch: 8
+  learning_rate_min: 3.0e-5
+  learning_rate_max: 6.0e-3
+  num_workers: 2
+  model_name: efficientnet_b1
+  seed: 42
+  pre_shuffle: true

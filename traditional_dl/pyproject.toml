@@ -1,0 +1,47 @@
+[project]
+name = "traditional-dl"
+version = "0.1.0"
+description = "AutoKeras Neural Architecture Search baseline for Dunham texture classification on carbonate cores."
+authors = [
+    { name = "E. Baraboshkin", email = "baraboshkin@petroleum.digital" },
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+keywords = ["carbonate", "dunham", "geology", "automl", "autokeras", "nas"]
+
+dependencies = [
+    # AutoKeras 1.x is the last branch that supports `ImageClassifier` with
+    # the `tuner` API used in this script. 1.1.x pins tf-keras + TF 2.10–2.15.
+    "autokeras>=1.1.0,<2.0",
+    "tensorflow>=2.10,<2.16",
+    "tf-keras>=2.10,<3.0",
+    "scikit-learn>=1.3,<2.0",
+    "numpy>=1.24,<2.0",
+    "pandas>=2.0,<3.0",
+    "matplotlib>=3.7,<4.0",
+    "seaborn>=0.13,<1.0",
+    "opencv-python-headless>=4.8,<5.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4",
+    "mypy>=1.8",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+traditional-dl-train = "traditional_dl.cli:main"
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]

@@ -1,0 +1,18 @@
+# 6-class experiment — fold Wackestone-Packstone into Packstone-Grainstone.
+name: 6cls
+class_map:
+  Wackestone-Packstone: Packstone-Grainstone-Wackestone
+  Packstone-Grainstone: Packstone-Grainstone-Wackestone
+train:
+  image_height: 200
+  image_width: 400
+  epochs: 30
+  train_batch: 32
+  val_batch: 8
+  test_batch: 8
+  learning_rate_min: 3.0e-5
+  learning_rate_max: 6.0e-3
+  num_workers: 2
+  model_name: efficientnet_b1
+  seed: 42
+  pre_shuffle: true
