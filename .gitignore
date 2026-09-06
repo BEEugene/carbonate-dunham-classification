@@ -37,3 +37,7 @@ Thumbs.db
 # Local configs
 .env
 *.local.yaml
+
+# Dataset zip kept at repo root for release upload (do not commit)
+Carbonate_lithofacies.zip
+.git_backup_*/
