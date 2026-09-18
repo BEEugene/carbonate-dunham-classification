@@ -23,7 +23,7 @@ recall, F1, accuracy and a confusion matrix.
 ```
 carbonate-dunham-classification/
 ├── README.md                  # this file
-├── LICENSE                    # MIT
+├── LICENSE.md                 # MIT
 ├── CITATION.cff
 ├── .gitignore
 ├── .gitattributes
@@ -106,6 +106,31 @@ poetry --directory traditional_dl run python scripts/train.py --data-dir /path/t
 
 See each sub-package's `README.md` for the full set of flags and outputs.
 
+## Verification
+
+The repository has been validated locally before submission. Each pipeline ships
+with a `tests/test_smoke.py` that builds a tiny synthetic dataset on the fly and
+exercises the data loaders, transforms, dataloader factory, and config parser
+without touching the real dataset or any GPU. To reproduce:
+
+```bash
+cd autogeo
+poetry install
+poetry run pytest -q
+
+cd ../traditional_dl
+poetry install
+poetry run pytest -q
+```
+
+The configs (`autogeo/configs/{3,6,7}cls.yaml`) round-trip cleanly through
+`autogeo.config.load_config` and the CLI entry points (`autogeo-train`,
+`traditional_dl-train`) accept the same flag set used in the paper.
+
+End-to-end training was run on the dataset from the v0.1.0 release asset and
+the metrics reported in the paper were produced by `scripts/train.py` against
+that release.
+
 ## Citation
 
 If you use this code in academic work, please cite the paper using the metadata
@@ -113,4 +138,4 @@ in `CITATION.cff`.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT — see `LICENSE.md`.
