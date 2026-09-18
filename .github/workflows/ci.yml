@@ -18,50 +18,52 @@ jobs:
           python-version: "3.11"
 
       - name: Verify Python syntax
-        run: python - <<'PY'
-import ast, glob, sys
-files = [f for f in glob.glob("**/*.py", recursive=True) if ".venv" not in f]
-errors = []
-for f in files:
-    try:
-        ast.parse(open(f, encoding="utf-8").read(), filename=f)
-    except SyntaxError as e:
-        errors.append(f"{f}: {e}")
-if errors:
-    for e in errors:
-        print("FAIL", e)
-    sys.exit(1)
-print(f"OK: {len(files)} Python files parsed")
-PY
+        run: |
+          python -c '
+          import ast, glob, sys
+          files = [f for f in glob.glob("**/*.py", recursive=True) if ".venv" not in f]
+          errors = []
+          for f in files:
+              try:
+                  ast.parse(open(f, encoding="utf-8").read(), filename=f)
+              except SyntaxError as e:
+                  errors.append(f"{f}: {e}")
+          if errors:
+              for e in errors:
+                  print("FAIL", e)
+              sys.exit(1)
+          print(f"OK: {len(files)} Python files parsed")
+          '
 
       - name: Verify pyproject.toml validity
-        run: python - <<'PY'
-import tomllib, glob, sys
-files = list(glob.glob("**/pyproject.toml", recursive=True))
-for f in files:
-    with open(f, "rb") as fh:
-        tomllib.load(fh)
-    print(f"OK: {f}")
-if not files:
-    sys.exit("no pyproject.toml found")
-PY
+        run: |
+          python -c '
+          import tomllib, glob, sys
+          files = list(glob.glob("**/pyproject.toml", recursive=True))
+          for f in files:
+              with open(f, "rb") as fh:
+                  tomllib.load(fh)
+              print(f"OK: {f}")
+          if not files:
+              sys.exit("no pyproject.toml found")
+          '
 
       - name: Verify YAML configs
-        run: python - <<'PY'
-import yaml, glob
-files = list(glob.glob("**/*.yaml", recursive=True))
-for f in files:
-    with open(f, encoding="utf-8") as fh:
-        yaml.safe_load(fh)
-    print(f"OK: {f}")
-print(f"OK: {len(files)} YAML configs")
-PY
+        run: |
+          python -c '
+          import yaml, glob
+          for f in glob.glob("**/*.yaml", recursive=True):
+              with open(f, encoding="utf-8") as fh:
+                  yaml.safe_load(fh)
+              print(f"OK: {f}")
+          '
 
       - name: Smoke-check autogeo 7-class config
-        run: python - <<'PY'
-import yaml
-cfg = yaml.safe_load(open("autogeo/configs/7cls.yaml", encoding="utf-8"))
-assert "classes" in cfg, "missing 'classes' key"
-assert isinstance(cfg["classes"], list) and len(cfg["classes"]) >= 3
-print(f"OK: autogeo 7cls config has {len(cfg['classes'])} classes")
-PY
+        run: |
+          python -c '
+          import yaml
+          cfg = yaml.safe_load(open("autogeo/configs/7cls.yaml", encoding="utf-8"))
+          assert "classes" in cfg and len(cfg["classes"]) >= 3
+          n = len(cfg["classes"])
+          print(f"OK: autogeo 7cls config has {n} classes")
+          '
