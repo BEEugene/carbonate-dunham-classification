@@ -18,7 +18,7 @@ authors:
   - family-names: Koroteev
     given-names: Dmitry
 version: 0.1.0
-date-released: 2025-09-06
+date-released: 2026-09-06
 license: MIT
 repository-code: https://github.com/BEEugene/carbonate-dunham-classification
 keywords:
@@ -49,5 +49,5 @@ preferred-citation:
     - family-names: Koroteev
       given-names: Dmitry
   journal: Computers & Geosciences
-  year: 2025
+  year: 2026
   status: under review
